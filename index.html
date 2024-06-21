@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8">   
+    <link rel="stylesheet" href="style.css"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Công cụ tính tỷ lệ thắng LQM</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Công cụ tính tỷ lệ thắng LQM</h1>
+        <h2>Trang web tính tỷ lệ thắng LQM</h2>
+        <p>* Đây là mã code viết chơi</p>
+        <form>
+            <label for="win_now">Tỷ lệ thắng hiện tại</label><br>
+            <input type="text" id="win_now" name="win_now"><br>
+            <label for="win_need">Tỷ lệ thắng mong muốn</label><br>
+            <input type="text" id="win_need" name="win_need"><br>
+            <label for="n">Tổng số trận đã chơi</label><br>
+            <input type="text" id="n" name="n"><br>
+            <input type="button" value="Tính toán" onclick="calculate()">
+        </form>
+        <p id="output"></p>
+        <div class="contact">
+            <p>Có thắc mắc liên hệ tôi qua Facebook dưới đây</p>
+            <a href="https://www.facebook.com/Jeris.Nolove" target="_blank">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook" class="social-icon">
+            </a>
+        </div>
+    </div>
+
+    <script>
+        getIntFromString = function(a){
+            if (isNaN(a)) {
+                groups = a.match(/([0-9.]+)/);
+                if (groups != null && groups.length > 0) {
+                    return groups[0];
+                }
+                return 0;
+            }
+            return a;
+        }
+
+        normaliseGrade = function (win_now, win_need, n){
+            win_now = getIntFromString(win_now)
+            win_need = getIntFromString(win_need)
+            n = getIntFromString(n)
+            n_win = (win_now / 100) * n
+            n_need = ((win_need * n) - (100 * n_win.toFixed(0))) / (100 - win_need)
+            return n_need.toFixed(0);
+        }
+
+        calculate = function() {
+            participation = document.getElementById("win_now").value;
+            mcq = document.getElementById("win_need").value;
+            course_work = document.getElementById("n").value;
+            score = normaliseGrade(participation, mcq, course_work)
+            output = "<strong> Cần phải thắng liên tiếp " + score + " trận</strong>"
+            console.debug(output)
+            document.getElementById("output").innerHTML = output
+        }
+    </script>
+</body>
+</html>
